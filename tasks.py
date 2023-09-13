@@ -1,5 +1,5 @@
 from robocorp.tasks import task
-from robocorp import browser, http, excel
+from robocorp import browser, http, excel, vault
 from RPA.PDF import PDF
 
 @task
@@ -22,9 +22,10 @@ def open_the_intranet_website():
 
 def log_in():
     """Fills in the login form and clicks the 'Log in' button"""
+    secret = vault.get_secret('robotsparebin')
     page = browser.page()
-    page.fill("#username", "maria")
-    page.fill("#password", "thoushallnotpass")
+    page.fill("#username", secret['username'])
+    page.fill("#password", secret['password'])
     page.click("button:text('Log in')")
 
 def fill_and_submit_sales_form(sales_rep):
